@@ -1,0 +1,21 @@
+/**
+ *
+ * @author Nguyễn Nam Trung Nguyên
+ */
+package swing_dashboard;
+
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.border.EmptyBorder;
+
+public class TableHeader extends JLabel {
+
+    public TableHeader(String text) {
+        super(text);
+        setOpaque(true);
+        setBackground(new Color(250, 250, 250));
+        setFont(new java.awt.Font("sansserif", 1, 12));
+        setForeground(new Color(102, 102, 102));
+        setBorder(new EmptyBorder(10, 5, 10, 5));
+    }
+}
