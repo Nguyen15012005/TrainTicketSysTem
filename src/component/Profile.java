@@ -1,56 +1,54 @@
-/**
- *
- * @author Nguyễn Nam Trung Nguyên
- */
 package component;
 
-//import entity.User;
+import common.Role;
 import javax.swing.*;
 import java.awt.*;
+import entity.User;
 
-public class Profile extends javax.swing.JPanel {
+public class Profile extends JPanel {
 
     private JLabel lblName;
     private JLabel lblRole;
     private swing_dashboard.ImageAvatar pic;
 
-    public Profile() {
-        initComponents();
+    // Constructor nhận User (có thể null)
+    public Profile(User account) {
+        initComponents(account);
         setOpaque(false);
     }
 
-    private void initComponents() {
-
+    private void initComponents(User account) {
         pic = new swing_dashboard.ImageAvatar();
-        lblName = new JLabel("Tên nhân viên");
-        lblRole = new JLabel("Chức vụ");
+        lblName = new JLabel(account != null ? account.getUserName() : "Tên nhân viên");
+        lblRole = new JLabel(account != null && account.getRole() != null ? getRoleName(account.getRole()) : "Chức vụ");
 
-        pic.setForeground(new java.awt.Color(245, 245, 245));
+        pic.setForeground(new Color(245, 245, 245));
         pic.setBorderSize(2);
-        pic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/profile.jpg"))); // NOI18N
+        pic.setIcon(new ImageIcon(getClass().getResource("/icon/profile.jpg")));
 
-        // 🎨 Style cho text
         lblName.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblName.setForeground(new Color(255, 255, 255));
+        lblName.setForeground(Color.WHITE);
         lblName.setHorizontalAlignment(SwingConstants.CENTER);
 
         lblRole.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         lblRole.setForeground(new Color(200, 200, 200));
         lblRole.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // 📐 Layout
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        // Layout
+        GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
+
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(lblRole, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+            layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                .addComponent(pic, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblName, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblRole, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
         );
+
         layout.setVerticalGroup(
             layout.createSequentialGroup()
                 .addGap(15)
-                .addComponent(pic, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pic, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
                 .addGap(10)
                 .addComponent(lblName)
                 .addGap(5)
@@ -59,11 +57,23 @@ public class Profile extends javax.swing.JPanel {
         );
     }
 
-    // ✅ Phương thức hiển thị thông tin người dùng sau khi đăng nhập
-//    public void setUser(User user) {
-//        if (user != null) {
-//            lblName.setText(user.getUserName());
-//            lblRole.setText(user.getRole() != null ? user.getRole().toString() : "Không xác định");
-//        }
-//    }
+    // Chuyển enum Role sang tên hiển thị
+    private String getRoleName(Role role) {
+        switch (role) {
+            case NHANVIEN:
+                return "Nhân viên";
+            case QUANLY:
+                return "Quản lý";
+            default:
+                return "Không xác định";
+        }
+    }
+
+    // Cập nhật user sau khi tạo panel
+    public void setUser(User account) {
+        if (account != null) {
+            lblName.setText(account.getUserName());
+            lblRole.setText(account.getRole() != null ? getRoleName(account.getRole()) : "Không xác định");
+        }
+    }
 }

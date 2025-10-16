@@ -13,14 +13,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Path2D;
+
 import javax.swing.JFrame;
 
+
 import entity.Model_Menu;
+import entity.User;
 import event.EventMenuSelected;
 
 public class Menu extends javax.swing.JPanel {
 
     private EventMenuSelected event;
+    private User loggedInUser;
 
     public void addEventMenuSelected(EventMenuSelected event) {
         this.event = event;
@@ -28,11 +32,14 @@ public class Menu extends javax.swing.JPanel {
     }
 
     // Thêm tham số isQuanLy
-    public Menu(boolean isQuanLy) {
-        initComponents();
-        listMenu1.setOpaque(false);
-        initMenu(isQuanLy);
-    }
+   public Menu(boolean isQuanLy, User loggedInUser) {
+    this.loggedInUser = loggedInUser;
+    initComponents(isQuanLy, loggedInUser);
+    listMenu1.setOpaque(false);
+    initMenu(isQuanLy);
+}
+
+
 
     private void initMenu(boolean isQuanLy) {
         
@@ -44,6 +51,7 @@ public class Menu extends javax.swing.JPanel {
             listMenu1.addItem(new Model_Menu("5", "Tài Khoản", Model_Menu.MenuType.MENU));
             listMenu1.addItem(new Model_Menu("6", "Thống Kê", Model_Menu.MenuType.MENU));
             listMenu1.addItem(new Model_Menu("7", "Tra Cứu", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("8", "Hỗ Trợ", Model_Menu.MenuType.MENU));
          // Dòng trống
             listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
             listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
@@ -59,6 +67,7 @@ public class Menu extends javax.swing.JPanel {
             listMenu1.addItem(new Model_Menu("6", "Khách Hàng", Model_Menu.MenuType.MENU));
             listMenu1.addItem(new Model_Menu("7", "Thống Kê", Model_Menu.MenuType.MENU));
             listMenu1.addItem(new Model_Menu("8", "Tra Cứu", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("9", "Hỗ Trợ", Model_Menu.MenuType.MENU));
             // Dòng trống
             listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
             listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
@@ -112,25 +121,27 @@ public class Menu extends javax.swing.JPanel {
     private swing_dashboard.ListMenu<String> listMenu1;
     private component.Profile profile1;
 
-    private void initComponents() {
-        listMenu1 = new swing_dashboard.ListMenu<>();
-        profile1 = new component.Profile();
+    private void initComponents(boolean isQuanLy, User loggedInUser) {
+    profile1 = new Profile(loggedInUser);
+    listMenu1 = new swing_dashboard.ListMenu<>();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(profile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(profile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
-        );
-    }
+    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    this.setLayout(layout);
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addGroup(layout.createSequentialGroup()
+            .addComponent(profile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 0, Short.MAX_VALUE))
+    );
+    layout.setVerticalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(layout.createSequentialGroup()
+            .addComponent(profile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
+    );
+}
+
+
 }

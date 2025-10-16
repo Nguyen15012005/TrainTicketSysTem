@@ -63,6 +63,36 @@ public class Dao_Login {
         }
         return null; // sai email/mật khẩu
     }
+    public User getUserInfo(String email) throws SQLException {
+    if (email == null) return null;
+
+    String sql = """
+        SELECT TOP 1 [UserName], [Role]
+        FROM [User]
+        WHERE [Email] = ?
+    """;
+
+    try (PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, email);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                User u = new User();
+                u.setUserName(rs.getString("UserName"));
+                String roleStr = rs.getString("Role");
+                if (roleStr != null) {
+                    try {
+                        u.setRole(Role.valueOf(roleStr.toUpperCase()));
+                    } catch (IllegalArgumentException e) {
+                        u.setRole(null);
+                    }
+                }
+                return u;
+            }
+        }
+    }
+    return null;
+}
+
 
     // ✅ Tạo người dùng mới
     public boolean createUser(User user) throws SQLException {

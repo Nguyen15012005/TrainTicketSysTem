@@ -5,6 +5,7 @@
 package gui;
 
 import component.MenuLayout;
+import entity.User;
 import event.EventMenuSelected;
 
 import java.awt.BorderLayout;
@@ -43,12 +44,15 @@ public class Gui_NhanVien extends javax.swing.JFrame {
     private final MenuLayout menu;
     private final Animator animator;
     private final WindowSnapshots windowSnapshots;
+    private User loggedInUser;
 
-    public Gui_NhanVien() {
+    public Gui_NhanVien(User user) {
+        this.loggedInUser = user;
     	setTitle("Hệ Thống Bán Vé Ga Tàu - Nhân Viên");
 		setSize(1200, 700); // <- bật lại dòng này
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+        
 
 		// Tạo icon cho ứng dụng
 		ImageIcon icon = new ImageIcon(getClass().getResource("/icon/logo.png"));
@@ -58,7 +62,8 @@ public class Gui_NhanVien extends javax.swing.JFrame {
         initComponents();
         layout = new MigLayout("fill", "0[fill]0", "0[fill]0");
         main = new MainForm();
-        menu = new MenuLayout(false);
+        menu = new MenuLayout(false, loggedInUser);
+
         windowSnapshots = new WindowSnapshots(Gui_NhanVien.this);
         menu.getMenu().initMoving(Gui_NhanVien.this);
         main.initMoving(Gui_NhanVien.this);

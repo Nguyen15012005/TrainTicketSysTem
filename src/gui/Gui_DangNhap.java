@@ -37,6 +37,7 @@ public class Gui_DangNhap extends javax.swing.JFrame {
     private swing_login.TextField txtUser;
     private javax.swing.JPanel panelLogin;
     private Dao_Login dao;
+    private User loggedInUser;
 
 
     public Gui_DangNhap() {
@@ -244,12 +245,12 @@ public class Gui_DangNhap extends javax.swing.JFrame {
                             if (account.getRole() != null) {
                                 switch (account.getRole()) {
                                     case QUANLY -> {
-                                    	java.awt.EventQueue.invokeLater(() -> new Gui_QuanLy().setVisible(true));
+                                    	java.awt.EventQueue.invokeLater(() -> new Gui_QuanLy(account).setVisible(true));
 //                                        new Gui_QuanLy().setVisible(true);
                                         dispose(); // đóng màn hình đăng nhập
                                     }
                                     case NHANVIEN -> {
-                                        new Gui_NhanVien().setVisible(true);
+                                    	java.awt.EventQueue.invokeLater(() -> new Gui_NhanVien(account).setVisible(true));
                                         dispose();
                                     }
                                     default -> {

@@ -5,6 +5,7 @@
 package gui;
 
 import component.MenuLayout;
+import entity.User;
 import event.EventMenuSelected;
 
 import java.awt.BorderLayout;
@@ -48,8 +49,9 @@ public class Gui_QuanLy extends javax.swing.JFrame {
     private final MenuLayout menu;
     private final Animator animator;
     private final WindowSnapshots windowSnapshots;
+    private User loggedInUser;
 
-    public Gui_QuanLy() {
+    public Gui_QuanLy(User user) {
         setTitle("Hệ Thống Bán Vé Ga Tàu - Quản Lý");
         setSize(1200, 700);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -62,10 +64,10 @@ public class Gui_QuanLy extends javax.swing.JFrame {
         }
 
         initComponents();
-
+        this.loggedInUser = user;
         layout = new MigLayout("fill", "0[fill]0", "0[fill]0");
         main = new MainForm();
-        menu = new MenuLayout(true); // true = Menu Quản Lý
+        menu = new MenuLayout(true, loggedInUser); // true = Menu Quản Lý
         windowSnapshots = new WindowSnapshots(Gui_QuanLy.this);
 
         menu.getMenu().initMoving(Gui_QuanLy.this);
