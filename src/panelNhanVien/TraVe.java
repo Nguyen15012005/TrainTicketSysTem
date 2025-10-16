@@ -2,7 +2,7 @@
  *
  * @author Nguyễn Nam Trung Nguyên
  */
-package form;
+package panelNhanVien;
 
 
 public class TraVe extends javax.swing.JPanel {

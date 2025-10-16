@@ -38,17 +38,16 @@ public class Menu extends javax.swing.JPanel {
         
         if (isQuanLy) {
         	listMenu1.addItem(new Model_Menu("1", "Trang Tổng Quan", Model_Menu.MenuType.MENU));
-            listMenu1.addItem(new Model_Menu("2", "Quản Lý Vé", Model_Menu.MenuType.MENU));
-            listMenu1.addItem(new Model_Menu("3", "Quản Lý Khách Hàng", Model_Menu.MenuType.MENU));
-            listMenu1.addItem(new Model_Menu("4", "Thống Kê Quản Lý", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("2", "Lịch Trình", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("3", "Khuyến Mãi", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("4", "Nhân Viên", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("5", "Tài Khoản", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("6", "Thống Kê", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("7", "Tra Cứu", Model_Menu.MenuType.MENU));
          // Dòng trống
             listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
             listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
             listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
-            listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
-            listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
-            listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
-
             // Logout
             listMenu1.addItem(new Model_Menu("10", "Đăng Xuất", Model_Menu.MenuType.MENU));
         } else {
@@ -57,12 +56,13 @@ public class Menu extends javax.swing.JPanel {
             listMenu1.addItem(new Model_Menu("3", "Đổi Vé", Model_Menu.MenuType.MENU));
             listMenu1.addItem(new Model_Menu("4", "Trả Vé", Model_Menu.MenuType.MENU));
             listMenu1.addItem(new Model_Menu("5", "Hóa Đơn", Model_Menu.MenuType.MENU));
-            listMenu1.addItem(new Model_Menu("6", "Tra Cứu", Model_Menu.MenuType.MENU));
-            listMenu1.addItem(new Model_Menu("7", "Khách Hàng", Model_Menu.MenuType.MENU));
-            listMenu1.addItem(new Model_Menu("8", "Thống Kê", Model_Menu.MenuType.MENU));
-         // Dòng trống
+            listMenu1.addItem(new Model_Menu("6", "Khách Hàng", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("7", "Thống Kê", Model_Menu.MenuType.MENU));
+            listMenu1.addItem(new Model_Menu("8", "Tra Cứu", Model_Menu.MenuType.MENU));
+            // Dòng trống
             listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
             listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
+            
             listMenu1.addItem(new Model_Menu("10", "Đăng Xuất", Model_Menu.MenuType.MENU));
         }
 

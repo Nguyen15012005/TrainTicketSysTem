@@ -2,7 +2,7 @@
  *
  * @author Nguyễn Nam Trung Nguyên
  */
-package form;
+package panelQuanLy;
 
 import chart.ModelChartLine;
 import chart.ModelChartPie;
@@ -13,9 +13,9 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
-public class TongQuan extends javax.swing.JPanel {
+public class TongQuanQuanLy extends javax.swing.JPanel {
 
-    public TongQuan() {
+    public TongQuanQuanLy() {
         initComponents();
         initData();
     }

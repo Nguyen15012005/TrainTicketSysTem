@@ -2,12 +2,12 @@
  *
  * @author Nguyễn Nam Trung Nguyên
  */
-package form;
+package panelQuanLy;
 
 
-public class ThongKe extends javax.swing.JPanel {
+public class KhuyenMai extends javax.swing.JPanel {
 
-    public ThongKe() {
+    public KhuyenMai() {
         initComponents();
     }
 
@@ -21,7 +21,7 @@ public class ThongKe extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(59, 59, 59));
-        jLabel1.setText("Thống Kê");
+        jLabel1.setText("KhuyenMai");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

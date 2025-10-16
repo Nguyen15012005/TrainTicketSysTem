@@ -2,17 +2,17 @@
  *
  * @author Nguyễn Nam Trung Nguyên
  */
-package form;
+package panelNhanVien;
 
 
-public class BanVe extends javax.swing.JPanel {
+public class HoaDon extends javax.swing.JPanel {
 
-    public BanVe() {
+    public HoaDon() {
         initComponents();
     }
 
+    
     @SuppressWarnings("unchecked")
-
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -21,7 +21,7 @@ public class BanVe extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(59, 59, 59));
-        jLabel1.setText("Bán Vé");
+        jLabel1.setText("Hóa Đơn");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

@@ -6,15 +6,6 @@ package gui;
 
 import component.MenuLayout;
 import event.EventMenuSelected;
-import form.MainForm;
-import form.TongQuan;
-import form.BanVe;
-import form.DoiVe;
-import form.TraVe;
-import form.HoaDon;
-import form.TraCuu;
-import form.KhachHang;
-import form.ThongKe;
 
 import java.awt.BorderLayout;
 import java.awt.MediaTracker;
@@ -29,10 +20,26 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
+import panelNhanVien.BanVe;
+import panelNhanVien.DoiVe;
+import panelNhanVien.HoaDon;
+import panelNhanVien.KhachHang;
+import panelNhanVien.MainForm;
+import panelNhanVien.ThongKeNhanVien;
+import panelNhanVien.TongQuanNhanVien;
+import panelNhanVien.TraCuuNhanVien;
+import panelNhanVien.TraVe;
 import swing_dashboard.WindowSnapshots;
 
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+import panelQuanLy.KhuyenMai;
+import panelQuanLy.LichTrinh;
+import panelQuanLy.NhanVien;
+import panelQuanLy.TaiKhoan;
+import panelQuanLy.ThongKeQuanLy;
+import panelQuanLy.TongQuanQuanLy;
+import panelQuanLy.TraCuuQuanLy;
 
 public class Gui_QuanLy extends javax.swing.JFrame {
 
@@ -127,14 +134,13 @@ public class Gui_QuanLy extends javax.swing.JFrame {
         // Chuyển form theo menu
         menu.getMenu().addEventMenuSelected(index -> {
             switch (index) {
-                case 0 -> main.show(new TongQuan());
-                case 1 -> main.show(new BanVe());
-                case 2 -> main.show(new DoiVe());
-                case 3 -> main.show(new TraVe());
-                case 4 -> main.show(new HoaDon());
-                case 5 -> main.show(new TraCuu());
-                case 6 -> main.show(new KhachHang());
-                case 7 -> main.show(new ThongKe());
+                case 0 -> main.show(new TongQuanQuanLy());
+                case 1 -> main.show(new LichTrinh());
+                case 2 -> main.show(new KhuyenMai());
+                case 3 -> main.show(new NhanVien());
+                case 4 -> main.show(new TaiKhoan());
+                case 5 -> main.show(new ThongKeQuanLy());
+                case 6 -> main.show(new TraCuuQuanLy());
                 default -> {
                     Gui_DangNhap dangNhap = new Gui_DangNhap();
                     dangNhap.setVisible(true);

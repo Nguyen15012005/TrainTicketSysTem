@@ -6,15 +6,6 @@ package gui;
 
 import component.MenuLayout;
 import event.EventMenuSelected;
-import form.TongQuan;
-import form.TraCuu;
-import form.TraVe;
-import form.BanVe;
-import form.DoiVe;
-import form.HoaDon;
-import form.KhachHang;
-import form.MainForm;
-import form.ThongKe;
 
 import java.awt.BorderLayout;
 import java.awt.MediaTracker;
@@ -30,6 +21,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
+import panelNhanVien.BanVe;
+import panelNhanVien.DoiVe;
+import panelNhanVien.HoaDon;
+import panelNhanVien.KhachHang;
+import panelNhanVien.MainForm;
+import panelNhanVien.ThongKeNhanVien;
+import panelNhanVien.TongQuanNhanVien;
+import panelNhanVien.TraCuuNhanVien;
+import panelNhanVien.TraVe;
 import swing_dashboard.WindowSnapshots;
 
 import org.jdesktop.animation.timing.Animator;
@@ -138,7 +138,7 @@ public class Gui_NhanVien extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 if (index == 0) {
-                    main.show(new TongQuan());
+                    main.show(new TongQuanNhanVien());
                 } else if (index == 1) {
                     main.show(new BanVe());
                 }else if (index == 2) {
@@ -151,13 +151,13 @@ public class Gui_NhanVien extends javax.swing.JFrame {
                     main.show(new HoaDon());
                 }
                 else if (index == 5) {
-                    main.show(new TraCuu());
+                    main.show(new TraCuuNhanVien());
                 }
                 else if (index == 6) {
                     main.show(new KhachHang());
                 }
                 else if (index == 7) {
-                    main.show(new ThongKe());
+                    main.show(new ThongKeNhanVien());
                 }
                 else {
                 	Gui_DangNhap dangNhap = new Gui_DangNhap();

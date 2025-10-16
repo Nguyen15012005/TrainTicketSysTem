@@ -2,7 +2,7 @@
  *
  * @author Nguyễn Nam Trung Nguyên
  */
-package form;
+package panelNhanVien;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
@@ -12,7 +12,7 @@ public class MainForm extends javax.swing.JPanel {
 
     public MainForm() {
         initComponents();
-        show(new TongQuan());
+        show(new TongQuanNhanVien());
     }
 
     @SuppressWarnings("unchecked")
