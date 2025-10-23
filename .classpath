@@ -6,10 +6,26 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="dist/lib/TimingFramework-0.55.jar"/>
 	<classpathentry kind="lib" path="dist/login-003.jar"/>
 	<classpathentry kind="lib" path="TimingFramework-0.55.jar"/>
-	<classpathentry kind="lib" path="dist/lib/sqljdbc43.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-lang3-3.12.0.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-logging-api-1.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/groovy-all-2.1.3.jar"/>
+	<classpathentry kind="lib" path="dist/lib/itext-2.1.7.jar"/>
+	<classpathentry kind="lib" path="dist/lib/itextpdf-5.3.4.jar"/>
+	<classpathentry kind="lib" path="dist/lib/itext-pdfa-5.4.0.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jasperreports-7.0.3.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jasperreports-fonts-6.10.0.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="dist/lib/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="dist/lib/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="dist/lib/slf4j-api-1.7.32.jar"/>
+	<classpathentry kind="lib" path="dist/lib/slf4j-simple-1.7.32.jar"/>
+	<classpathentry kind="lib" path="dist/lib/sqljdbc4.jar"/>
 	<classpathentry kind="lib" path="dist/lib/miglayout-core-4.2.jar"/>
 	<classpathentry kind="lib" path="dist/lib/miglayout-swing-4.2.jar"/>
 	<classpathentry kind="output" path="build/classes"/>

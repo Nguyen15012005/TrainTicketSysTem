@@ -16,7 +16,7 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class ModernScrollBarUI extends BasicScrollBarUI {
 
-    private static final int SCROLL_BAR_ALPHA_ROLLOVER = 60;
+    private static final int SCROLL_BAR_ALPHA_ROLLOVeTauR = 60;
     private static final int SCROLL_BAR_ALPHA = 50;
     private static final int THUMB_SIZE = 8;
 
@@ -40,7 +40,7 @@ public class ModernScrollBarUI extends BasicScrollBarUI {
 
     @Override
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
-        int alpha = isThumbRollover() ? SCROLL_BAR_ALPHA_ROLLOVER : SCROLL_BAR_ALPHA;
+        int alpha = isThumbRollover() ? SCROLL_BAR_ALPHA_ROLLOVeTauR : SCROLL_BAR_ALPHA;
         int orientation = scrollbar.getOrientation();
         int x = thumbBounds.x;
         int y = thumbBounds.y;

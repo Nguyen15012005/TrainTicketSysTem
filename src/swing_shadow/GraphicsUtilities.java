@@ -251,7 +251,7 @@ public class GraphicsUtilities {
         if (pixels == null) {
             pixels = new int[w * h];
         } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length"
+            throw new IllegalArgumentException("pixels array must haVeTau a length"
                     + " >= w*h");
         }
 
@@ -271,7 +271,7 @@ public class GraphicsUtilities {
         if (pixels == null || w == 0 || h == 0) {
             return;
         } else if (pixels.length < w * h) {
-            throw new IllegalArgumentException("pixels array must have a length"
+            throw new IllegalArgumentException("pixels array must haVeTau a length"
                     + " >= w*h");
         }
 

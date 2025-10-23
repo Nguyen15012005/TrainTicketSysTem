@@ -10,20 +10,20 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-import entity.Model_Menu;
+import entity.Menu;
 
 public class MenuItem extends javax.swing.JPanel {
 
     private boolean selected;
-    private boolean over;
+    private boolean overIndex;
 
-    public MenuItem(Model_Menu data) {
+    public MenuItem(Menu data) {
         initComponents();
         setOpaque(false);
-        if (data.getType() == Model_Menu.MenuType.MENU) {
+        if (data.getType() == Menu.MenuType.MENU) {
             lbIcon.setIcon(data.toIcon());
             lbName.setText(data.getName());
-        } else if (data.getType() == Model_Menu.MenuType.TITLE) {
+        } else if (data.getType() == Menu.MenuType.TITLE) {
             lbIcon.setText(data.getName());
             lbIcon.setFont(new Font("sansserif", 1, 12));
             lbName.setVisible(false);
@@ -37,8 +37,8 @@ public class MenuItem extends javax.swing.JPanel {
         repaint();
     }
 
-    public void setOver(boolean over) {
-        this.over = over;
+    public void setOver(boolean overIndex) {
+        this.overIndex = overIndex;
         repaint();
     }
 
@@ -74,7 +74,7 @@ public class MenuItem extends javax.swing.JPanel {
 
     @Override
     protected void paintComponent(Graphics grphcs) {
-        if (selected || over) {
+        if (selected || overIndex) {
             Graphics2D g2 = (Graphics2D) grphcs;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             if (selected) {

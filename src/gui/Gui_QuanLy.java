@@ -4,8 +4,7 @@
  */
 package gui;
 
-import component.MenuLayout;
-import entity.User;
+import entity.TaiKhoan;
 import event.EventMenuSelected;
 
 import java.awt.BorderLayout;
@@ -21,37 +20,38 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
-import panelNhanVien.BanVe;
-import panelNhanVien.DoiVe;
-import panelNhanVien.HoaDon;
-import panelNhanVien.KhachHang;
-import panelNhanVien.MainForm;
-import panelNhanVien.ThongKeNhanVien;
-import panelNhanVien.TongQuanNhanVien;
-import panelNhanVien.TraCuuNhanVien;
-import panelNhanVien.TraVe;
 import swing_dashboard.WindowSnapshots;
 
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
-import panelQuanLy.KhuyenMai;
-import panelQuanLy.LichTrinh;
-import panelQuanLy.NhanVien;
-import panelQuanLy.TaiKhoan;
-import panelQuanLy.ThongKeQuanLy;
-import panelQuanLy.TongQuanQuanLy;
-import panelQuanLy.TraCuuQuanLy;
+
+import panel_menu.Panel_MainForm;
+import panel_menu.Panel_MenuLayout;
+import panel_nhanvien.Panel_BanVe;
+import panel_nhanvien.Panel_DoiVe;
+import panel_nhanvien.Panel_HoaDon;
+import panel_nhanvien.Panel_KhachHang;
+import panel_nhanvien.Panel_ThongKeNhanVien;
+import panel_nhanvien.Panel_TongQuanNhanVien;
+import panel_nhanvien.Panel_TraVe;
+import panel_quanly.Panel_KhuyenMai;
+import panel_quanly.Panel_LichTrinh;
+import panel_quanly.Panel_NhanVien;
+import panel_quanly.Panel_TaiKhoan;
+import panel_quanly.Panel_ThongKeQuanLy;
+import panel_quanly.Panel_TongQuanQuanLy;
+import panel_quanly.Panel_TraCuuQuanLy;
 
 public class Gui_QuanLy extends javax.swing.JFrame {
 
     private final MigLayout layout;
-    private final MainForm main;
-    private final MenuLayout menu;
+    private final Panel_MainForm main;
+    private final Panel_MenuLayout menu;
     private final Animator animator;
     private final WindowSnapshots windowSnapshots;
-    private User loggedInUser;
+    private TaiKhoan loggedInUser;
 
-    public Gui_QuanLy(User user) {
+    public Gui_QuanLy(TaiKhoan user) {
         setTitle("Hệ Thống Bán Vé Ga Tàu - Quản Lý");
         setSize(1200, 700);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -66,8 +66,8 @@ public class Gui_QuanLy extends javax.swing.JFrame {
         initComponents();
         this.loggedInUser = user;
         layout = new MigLayout("fill", "0[fill]0", "0[fill]0");
-        main = new MainForm();
-        menu = new MenuLayout(true, loggedInUser); // true = Menu Quản Lý
+        main = new Panel_MainForm();
+        menu = new Panel_MenuLayout(true, loggedInUser); // true = Menu Quản Lý
         windowSnapshots = new WindowSnapshots(Gui_QuanLy.this);
 
         menu.getMenu().initMoving(Gui_QuanLy.this);
@@ -109,7 +109,7 @@ public class Gui_QuanLy extends javax.swing.JFrame {
             public void end() {
                 menu.setShow(!menu.isShow());
                 if (!menu.isShow()) menu.setVisible(false);
-                windowSnapshots.removeSnapshot();
+                windowSnapshots.remoVeTauSnapshot();
                 getContentPane().setVisible(true);
             }
         });
@@ -136,13 +136,13 @@ public class Gui_QuanLy extends javax.swing.JFrame {
         // Chuyển form theo menu
         menu.getMenu().addEventMenuSelected(index -> {
             switch (index) {
-                case 0 -> main.show(new TongQuanQuanLy());
-                case 1 -> main.show(new LichTrinh());
-                case 2 -> main.show(new KhuyenMai());
-                case 3 -> main.show(new NhanVien());
-                case 4 -> main.show(new TaiKhoan());
-                case 5 -> main.show(new ThongKeQuanLy());
-                case 6 -> main.show(new TraCuuQuanLy());
+                case 0 -> main.show(new Panel_TongQuanQuanLy());
+                case 1 -> main.show(new Panel_LichTrinh());
+                case 2 -> main.show(new Panel_KhuyenMai());
+                case 3 -> main.show(new Panel_NhanVien());
+                case 4 -> main.show(new Panel_TaiKhoan());
+                case 5 -> main.show(new Panel_ThongKeQuanLy());
+                case 6 -> main.show(new Panel_TraCuuQuanLy());
                 default -> {
                     Gui_DangNhap dangNhap = new Gui_DangNhap();
                     dangNhap.setVisible(true);

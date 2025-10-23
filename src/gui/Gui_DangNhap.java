@@ -7,6 +7,7 @@ package gui;
 
 import java.awt.Color;
 import java.awt.MediaTracker;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -18,9 +19,9 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 
-import dao.Dao_Login;
-import entity.Login;
-import entity.User;
+import dao.Dao_DangNhap;
+import entity.DangNhap;
+import entity.TaiKhoan;
 
 public class Gui_DangNhap extends javax.swing.JFrame {
 
@@ -36,26 +37,26 @@ public class Gui_DangNhap extends javax.swing.JFrame {
     private swing_login.PasswordField txtPass;
     private swing_login.TextField txtUser;
     private javax.swing.JPanel panelLogin;
-    private Dao_Login dao;
-    private User loggedInUser;
-
+    private Dao_DangNhap dao;
+    private TaiKhoan loggedInUser;
 
     public Gui_DangNhap() {
-    	setTitle("Hệ Thống Bán Vé Ga Tàu");
-		setSize(1200, 700); // <- bật lại dòng này
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+        setTitle("Hệ Thống Bán Vé Ga Tàu");
+        setSize(1200, 700);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-		// Tạo icon cho ứng dụng
-		ImageIcon icon = new ImageIcon(getClass().getResource("/icon/logo.png"));
-		if (icon.getImageLoadStatus() == MediaTracker.COMPLETE) {
-			setIconImage(icon.getImage());
-		}
+        // Tạo icon cho ứng dụng
+        ImageIcon icon = new ImageIcon(getClass().getResource("/icon/logo.png"));
+        if (icon.getImageLoadStatus() == MediaTracker.COMPLETE) {
+            setIconImage(icon.getImage());
+        }
+
         initComponents();
         getContentPane().setBackground(new Color(245, 245, 245));
         initAnimation();
         initEnterKey(); // ✅ Thêm xử lý Enter
-        dao = new Dao_Login(); // ✅ Khởi tạo DAO ở đây
+        dao = new Dao_DangNhap(); // ✅ Khởi tạo DAO ở đây
     }
 
     // -------------------------------
@@ -77,7 +78,6 @@ public class Gui_DangNhap extends javax.swing.JFrame {
                 if (signIn) {
                     // ✅ Sau khi hiệu ứng login xong → mở giao diện bán vé ngay
                     SwingUtilities.invokeLater(() -> {
-//                        new TicketAppFrame().setVisible(true);
                         dispose(); // đóng login
                     });
                 } else {
@@ -91,7 +91,7 @@ public class Gui_DangNhap extends javax.swing.JFrame {
         animatorLogin.setResolution(0);
     }
 
-    // ✅ Thêm xử lý phím Enter
+    // ✅ Sửa lỗi cú pháp phần xử lý phím Enter
     private void initEnterKey() {
         txtUser.addKeyListener(new KeyAdapter() {
             @Override
@@ -129,12 +129,13 @@ public class Gui_DangNhap extends javax.swing.JFrame {
 
         panelLogin.setOpaque(false);
         jPanel1.setOpaque(false);
-//Icon
+
+        // Icon
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logo.png")));
 
-//        Nút đăng nhập
-        cmdSignIn.setBackground(new java.awt.Color(0,0,255));
+        // Nút đăng nhập
+        cmdSignIn.setBackground(new java.awt.Color(0, 0, 255));
         cmdSignIn.setForeground(Color.WHITE);
         cmdSignIn.setText("Sign In");
         cmdSignIn.setEffectColor(new java.awt.Color(199, 196, 255));
@@ -142,13 +143,13 @@ public class Gui_DangNhap extends javax.swing.JFrame {
 
         txtUser.setBackground(new Color(245, 245, 245));
         txtUser.setLabelText("User Name");
-        txtUser.setLineColor(new Color(0,0,255));
-        txtUser.setSelectionColor(new Color(30,144,255));
+        txtUser.setLineColor(new Color(0, 0, 255));
+        txtUser.setSelectionColor(new Color(30, 144, 255));
 
         txtPass.setBackground(new Color(245, 245, 245));
         txtPass.setLabelText("Password");
-        txtPass.setLineColor(new Color(0,0,255));
-        txtPass.setSelectionColor(new Color(30,144,255));
+        txtPass.setLineColor(new Color(0, 0, 255));
+        txtPass.setSelectionColor(new Color(30, 144, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -209,7 +210,7 @@ public class Gui_DangNhap extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void cmdSignInActionPerformed(java.awt.event.ActionEvent evt) {
+    private void cmdSignInActionPerformed(ActionEvent evt) {
         if (!animatorLogin.isRunning()) {
             signIn = true;
             String user = txtUser.getText().trim();
@@ -231,26 +232,23 @@ public class Gui_DangNhap extends javax.swing.JFrame {
             if (action) {
                 try {
                     // ✅ Gọi DAO để kiểm tra đăng nhập
-                    Login loginData = new Login(user, pass);
-                    User account = dao.login(loginData);
+                    DangNhap loginData = new DangNhap(user, pass);
+                    TaiKhoan account = dao.login(loginData);
 
                     if (account != null) {
                         enableLogin(false);
                         animatorLogin.start(); // hiệu ứng login
-
                         System.out.println("✅ Đăng nhập thành công! Xin chào " + account.getUserName());
 
-                        // ✅ Phân quyền theo Role
                         SwingUtilities.invokeLater(() -> {
                             if (account.getRole() != null) {
                                 switch (account.getRole()) {
                                     case QUANLY -> {
-                                    	java.awt.EventQueue.invokeLater(() -> new Gui_QuanLy(account).setVisible(true));
-//                                        new Gui_QuanLy().setVisible(true);
-                                        dispose(); // đóng màn hình đăng nhập
+                                        java.awt.EventQueue.invokeLater(() -> new Gui_QuanLy(account).setVisible(true));
+                                        dispose();
                                     }
                                     case NHANVIEN -> {
-                                    	java.awt.EventQueue.invokeLater(() -> new Gui_NhanVien(account).setVisible(true));
+                                        java.awt.EventQueue.invokeLater(() -> new Gui_NhanVien(account).setVisible(true));
                                         dispose();
                                     }
                                     default -> {
@@ -278,10 +276,8 @@ public class Gui_DangNhap extends javax.swing.JFrame {
                     txtPass.setHelperText(ex.getMessage());
                 }
             }
-
         }
     }
-
 
     private void enableLogin(boolean action) {
         txtUser.setEditable(action);
@@ -289,18 +285,7 @@ public class Gui_DangNhap extends javax.swing.JFrame {
         cmdSignIn.setEnabled(action);
     }
 
-//    public static void main(String args[]) {
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (Exception ex) {
-//            java.util.logging.Logger.getLogger(Gui_DangNhap.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//
-//        java.awt.EventQueue.invokeLater(() -> new Gui_DangNhap().setVisible(true));
-//    }
+    // public static void main(String[] args) {
+    //     java.awt.EventQueue.invokeLater(() -> new Gui_DangNhap().setVisible(true));
+    // }
 }

@@ -4,8 +4,7 @@
  */
 package gui;
 
-import component.MenuLayout;
-import entity.User;
+import entity.TaiKhoan;
 import event.EventMenuSelected;
 
 import java.awt.BorderLayout;
@@ -22,15 +21,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
-import panelNhanVien.BanVe;
-import panelNhanVien.DoiVe;
-import panelNhanVien.HoaDon;
-import panelNhanVien.KhachHang;
-import panelNhanVien.MainForm;
-import panelNhanVien.ThongKeNhanVien;
-import panelNhanVien.TongQuanNhanVien;
-import panelNhanVien.TraCuuNhanVien;
-import panelNhanVien.TraVe;
+import panel_menu.Panel_MainForm;
+import panel_menu.Panel_MenuLayout;
+import panel_nhanvien.Panel_BanVe;
+//import panel_nhanvien.Panel_DoiVe;
+import panel_nhanvien.Panel_HoaDon;
+import panel_nhanvien.Panel_KhachHang;
+import panel_nhanvien.Panel_ThongKeNhanVien;
+import panel_nhanvien.Panel_TongQuanNhanVien;
+import panel_nhanvien.Panel_TraCuuNhanVien;
+import panel_nhanvien.Panel_TraVe;
 import swing_dashboard.WindowSnapshots;
 
 import org.jdesktop.animation.timing.Animator;
@@ -40,13 +40,13 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 public class Gui_NhanVien extends javax.swing.JFrame {
 
     private final MigLayout layout;
-    private final MainForm main;
-    private final MenuLayout menu;
+    private final Panel_MainForm main;
+    private final Panel_MenuLayout menu;
     private final Animator animator;
     private final WindowSnapshots windowSnapshots;
-    private User loggedInUser;
+    private TaiKhoan loggedInUser;
 
-    public Gui_NhanVien(User user) {
+    public Gui_NhanVien(TaiKhoan user) {
         this.loggedInUser = user;
     	setTitle("Hệ Thống Bán Vé Ga Tàu - Nhân Viên");
 		setSize(1200, 700); // <- bật lại dòng này
@@ -61,8 +61,8 @@ public class Gui_NhanVien extends javax.swing.JFrame {
 		}
         initComponents();
         layout = new MigLayout("fill", "0[fill]0", "0[fill]0");
-        main = new MainForm();
-        menu = new MenuLayout(false, loggedInUser);
+        main = new Panel_MainForm();
+        menu = new Panel_MenuLayout(false, loggedInUser);
 
         windowSnapshots = new WindowSnapshots(Gui_NhanVien.this);
         menu.getMenu().initMoving(Gui_NhanVien.this);
@@ -106,7 +106,7 @@ public class Gui_NhanVien extends javax.swing.JFrame {
                 if (!menu.isShow()) {
                     menu.setVisible(false);
                 }
-                windowSnapshots.removeSnapshot();
+                windowSnapshots.remoVeTauSnapshot();
                 getContentPane().setVisible(true);
             }
 
@@ -143,26 +143,26 @@ public class Gui_NhanVien extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 if (index == 0) {
-                    main.show(new TongQuanNhanVien());
+                    main.show(new Panel_TongQuanNhanVien());
                 } else if (index == 1) {
-                    main.show(new BanVe());
+                    main.show(new Panel_BanVe());
                 }else if (index == 2) {
-                    main.show(new DoiVe());
+                    main.show(new Panel_DoiVe());
                 }
                 else if (index == 3) {
-                    main.show(new TraVe());
+                    main.show(new Panel_TraVe());
                 }
                 else if (index == 4) {
-                    main.show(new HoaDon());
+                    main.show(new Panel_HoaDon());
                 }
                 else if (index == 5) {
-                    main.show(new TraCuuNhanVien());
+                    main.show(new Panel_TraCuuNhanVien());
                 }
                 else if (index == 6) {
-                    main.show(new KhachHang());
+                    main.show(new Panel_KhachHang());
                 }
                 else if (index == 7) {
-                    main.show(new ThongKeNhanVien());
+                    main.show(new Panel_ThongKeNhanVien());
                 }
                 else {
                 	Gui_DangNhap dangNhap = new Gui_DangNhap();

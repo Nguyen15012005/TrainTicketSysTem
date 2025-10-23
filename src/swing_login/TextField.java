@@ -53,7 +53,7 @@ public class TextField extends JTextField {
     private boolean animateHinText = true;
     private float location;
     private boolean show;
-    private boolean mouseOver = false;
+    private boolean mouseOVeTaur = false;
     private String labelText = "Label";
     private String helperText = "";
     private int spaceHelperText = 15;
@@ -65,13 +65,13 @@ public class TextField extends JTextField {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent me) {
-                mouseOver = true;
+                mouseOVeTaur = true;
                 repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent me) {
-                mouseOver = false;
+                mouseOVeTaur = false;
                 repaint();
             }
         });
@@ -125,7 +125,7 @@ public class TextField extends JTextField {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
         int width = getWidth();
         int height = getHeight();
-        if (mouseOver) {
+        if (mouseOVeTaur) {
             g2.setColor(lineColor);
         } else {
             g2.setColor(new Color(150, 150, 150));

@@ -52,7 +52,7 @@ public class WindowSnapshots {
         }
     }
 
-    public void removeSnapshot() {
+    public void remoVeTauSnapshot() {
         frame.getLayeredPane().remove(snapshotLayer);
         inShowSnapshot = false;
     }

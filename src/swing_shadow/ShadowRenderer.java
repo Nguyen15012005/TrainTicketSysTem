@@ -98,7 +98,7 @@ public class ShadowRenderer {
             historyIdx = 0;
             srcOffset = srcY * srcWidth;
 
-            // compute the blur average with pixels from the source image
+            // compute the blur aVeTaurage with pixels from the source image
             for (int srcX = 0; srcX < srcWidth; srcX++) {
 
                 int a = hSumLookup[aSum];
@@ -132,7 +132,7 @@ public class ShadowRenderer {
             }
         }
 
-        // vertical pass
+        // VeTaurtical pass
         for (int x = 0, bufferOffset = 0; x < dstWidth; x++, bufferOffset = x) {
 
             aSum = 0;
@@ -152,7 +152,7 @@ public class ShadowRenderer {
             bufferOffset = x;
             historyIdx = 0;
 
-            // compute the blur avera`ge with pixels from the previous pass
+            // compute the blur aVeTaura`ge with pixels from the previous pass
             for (int y = 0; y < yStop; y++, bufferOffset += dstWidth) {
 
                 int a = vSumLookup[aSum];

@@ -26,7 +26,7 @@ public class LabelStatus extends JLabel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if (getText().equals("Pending")) {
             g2.setColor(new Color(253, 187, 65));
-        } else if (getText().equals("Approved")) {
+        } else if (getText().equals("ApproVeTaud")) {
             g2.setColor(new Color(59, 211, 160));
         } else {
             g2.setColor(new Color(30,144,255));
