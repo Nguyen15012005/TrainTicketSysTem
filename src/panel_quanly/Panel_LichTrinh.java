@@ -20,7 +20,7 @@ import java.util.List;
 
 public class Panel_LichTrinh extends JPanel {
 
-    private final Dao_LichTrinh daoLichTrinh = new Dao_LichTrinh();
+    private final Dao_LichTrinh daoLichTrinh = new Dao_LichTrinh(null);
     private final Dao_GaTau daoGa = new Dao_GaTau();
     private final Dao_Tau daoChuyenTau = new Dao_Tau();
 

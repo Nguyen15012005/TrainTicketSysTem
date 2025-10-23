@@ -6,6 +6,9 @@ package panel_nhanvien;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import connect_database.DatabaseConnection;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -13,7 +16,6 @@ import java.util.List;
 import java.sql.Connection;
 import dao.*;
 import entity.*;
-import connectDB.DatabaseConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,9 +29,9 @@ public class Panel_DoiVe extends javax.swing.JPanel {
     
     private Connection connection;
     private Ve_Dao veDao;
-    private LichTrinh_Dao lichTrinhDao;
+    private Dao_LichTrinh lichTrinhDao;
     private ChuyenTau_Dao chuyenTauDao;
-    private Toa_Dao toaDao;
+    private Dao_Toa toaDao;
     private ChoNgoi_Dao choNgoiDao;
     private KhachHang_Dao khachHangDao;
     
@@ -40,7 +42,7 @@ public class Panel_DoiVe extends javax.swing.JPanel {
     // Logic mới: Lưu sơ đồ ghế riêng cho từng toa (key: toaIndex)
     private Map<Integer, JPanel> mapSoDoGheTheoToa = new HashMap<>();
 
-    public DoiVe() {
+    public Panel_DoiVe() {
         initDatabase();
         initComponents();
     }
@@ -50,9 +52,9 @@ public class Panel_DoiVe extends javax.swing.JPanel {
             connection = DatabaseConnection.getInstance().getConnection();
             if (connection != null) {
                 veDao = new Ve_Dao(connection);
-                lichTrinhDao = new LichTrinh_Dao(connection);
+                lichTrinhDao = new Dao_LichTrinh(connection);
                 chuyenTauDao = new ChuyenTau_Dao(connection);
-                toaDao = new Toa_Dao(connection);
+                toaDao = new Dao_Toa(connection);
                 choNgoiDao = new ChoNgoi_Dao(connection);
                 khachHangDao = new KhachHang_Dao(connection);
                 System.out.println("✅ Khởi tạo các DAO thành công!");

@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.sql.Connection;
 import com.toedter.calendar.JDateChooser;
+
+import connect_database.DatabaseConnection;
 import dao.*;
 import entity.*;
 
@@ -21,9 +23,9 @@ public class Panel_BanVe extends javax.swing.JPanel {
     private int selectedSeatIndex = -1;
     private Connection connection;
     private Ga_Dao gaDao;
-    private LichTrinh_Dao lichTrinhDao;
+    private Dao_LichTrinh lichTrinhDao;
     private ChuyenTau_Dao chuyenTauDao;
-    private Toa_Dao toaDao;
+    private Dao_Toa toaDao;
     private ChoNgoi_Dao choNgoiDao;
     private Ve_Dao veDao;
     private LoaiToa_Dao loaiToaDao;
@@ -51,9 +53,9 @@ public class Panel_BanVe extends javax.swing.JPanel {
             connection = DatabaseConnection.getInstance().getConnection();
             if (connection != null) {
                 gaDao = new Ga_Dao(connection);
-                lichTrinhDao = new LichTrinh_Dao(connection);
+                lichTrinhDao = new Dao_LichTrinh(connection);
                 chuyenTauDao = new ChuyenTau_Dao(connection);
-                toaDao = new Toa_Dao(connection);
+                toaDao = new Dao_Toa(connection);
                 choNgoiDao = new ChoNgoi_Dao(connection);
                 veDao = new Ve_Dao(connection);
                 loaiToaDao = new LoaiToa_Dao(connection);
@@ -726,37 +728,38 @@ public class Panel_BanVe extends javax.swing.JPanel {
         jPanel8.removeAll();
         jPanel8.setLayout(new BoxLayout(jPanel8, BoxLayout.Y_AXIS));
 
-        String selectedMaLichTrinh = jRadioButton1.isSelected() ? selectedMaLichTrinhDi : selectedMaLichTrinhVe;
         List<LichTrinh> selectedLichTrinhList = jRadioButton1.isSelected() ? lichTrinhDi : lichTrinhVe;
 
-        if (selectedTrainIndex >= 0 && selectedLichTrinhList != null) {
+        if (selectedTrainIndex >= 0 && selectedLichTrinhList != null && toaDao != null) {
             LichTrinh lt = selectedLichTrinhList.get(selectedTrainIndex);
-            List<Toa> toas = toaDao.getToaByChuyenTau(lt.getMaChuyenTau());
-            for (int i = 0; i < toas.size(); i++) {
-                Toa toa = toas.get(i);
-                JButton coachBtn = new JButton("Toa " + toa.getSoToa());
-                coachBtn.setMaximumSize(new Dimension(160, 60));
-                coachBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                switch (toa.getLoaiToa()) {
-                case "GN": coachBtn.setBackground(new Color(0, 0, 139)); break; // giường nằm - xanh lam đậm
-                case "GC": coachBtn.setBackground(new Color(255, 215, 0)); break; // ngồi cứng - vàng
-                case "GM": coachBtn.setBackground(new Color(144, 238, 144)); break; // ngồi mềm - xanh lá nhạt
-                // thêm case khác nếu cần
-                default: coachBtn.setBackground(new Color(70, 130, 180));
-            }
-           
-                coachBtn.setForeground(Color.WHITE);
-                coachBtn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            List<ToaTau> toas = toaDao.getToaByChuyenTau(lt.getMaChuyenTau());
 
-                final int coachIndex = i;
-                coachBtn.addActionListener(e -> {
-                    selectedCoachIndex = coachIndex;
-                    selectedSeatIndex = -1;
-                    setupSeatGrid();
-                });
+            if (toas != null && !toas.isEmpty()) {
+                for (int i = 0; i < toas.size(); i++) {
+                    ToaTau toa = toas.get(i);
+                    JButton coachBtn = new JButton("Toa " + toa.getSoToa());
+                    coachBtn.setMaximumSize(new Dimension(160, 60));
+                    coachBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                jPanel8.add(coachBtn);
-                jPanel8.add(Box.createRigidArea(new Dimension(0, 10)));
+                    // Set màu theo loại toa
+                    coachBtn.setBackground(getCoachColor(toa.getLoaiToa()));
+                    coachBtn.setForeground(Color.WHITE);
+                    coachBtn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+                    final int coachIndex = i;
+                    coachBtn.addActionListener(e -> {
+                        selectedCoachIndex = coachIndex;
+                        selectedSeatIndex = -1;
+                        setupSeatGrid();
+                    });
+
+                    jPanel8.add(coachBtn);
+                    jPanel8.add(Box.createRigidArea(new Dimension(0, 10)));
+                }
+            } else {
+                JLabel noCoach = new JLabel("Chưa có toa cho chuyến tàu này");
+                noCoach.setAlignmentX(Component.CENTER_ALIGNMENT);
+                jPanel8.add(noCoach);
             }
         } else {
             JLabel noCoach = new JLabel("Vui lòng chọn chuyến tàu");
@@ -772,97 +775,97 @@ public class Panel_BanVe extends javax.swing.JPanel {
         jPanel10.removeAll();
         jPanel10.setLayout(new GridLayout(6, 5, 5, 5));
 
-        String selectedMaLichTrinh = jRadioButton1.isSelected() ? selectedMaLichTrinhDi : selectedMaLichTrinhVe;
         List<LichTrinh> selectedLichTrinhList = jRadioButton1.isSelected() ? lichTrinhDi : lichTrinhVe;
 
-        if (selectedTrainIndex >= 0 && selectedCoachIndex >= 0 && selectedLichTrinhList != null) {
+        if (selectedTrainIndex >= 0 && selectedCoachIndex >= 0 
+                && selectedLichTrinhList != null && toaDao != null && choNgoiDao != null) {
             LichTrinh lt = selectedLichTrinhList.get(selectedTrainIndex);
-            List<Toa> toas = toaDao.getToaByChuyenTau(lt.getMaChuyenTau());
-            Toa selectedToa = toas.get(selectedCoachIndex);
-            List<ChoNgoi> chos = choNgoiDao.getByToa(selectedToa.getMaToa());
-            
-            Color seatColor;
-            switch (selectedToa.getLoaiToa()) {
-                case "GM": seatColor = new Color(255, 200, 100); break;
-                case "GC": seatColor = new Color(0, 100, 0); break;
-                case "GN4": seatColor = new Color(100, 150, 255); break;
-                case "GN6": seatColor = new Color(150, 150, 150); break;
-                case "TV": seatColor = new Color(128, 0, 128); break;
-                default: seatColor = new Color(220, 220, 220);
-            }
+            List<ToaTau> toas = toaDao.getToaByChuyenTau(lt.getMaChuyenTau());
+            if (toas != null && selectedCoachIndex < toas.size()) {
+                ToaTau selectedToa = toas.get(selectedCoachIndex);
+                List<ChoNgoi> chos = choNgoiDao.getByToa(selectedToa.getMaToa());
 
-            for (int row = 0; row < 6; row++) {
-                // 2 ghế bên trái
-                for (int col = 0; col < 2; col++) {
-                    int seatNumber = row * 4 + col + 1; // Số ghế từ 1 đến 24
-                    JButton seatBtn = new JButton(String.valueOf(seatNumber));
-                    seatBtn.setPreferredSize(new Dimension(40, 40));
-                    int status = 0;
-                    boolean isEnabled = false;
-                    if (seatNumber - 1 < chos.size()) {
-                        ChoNgoi cn = chos.get(seatNumber - 1);
-                        status = veDao.isChoSold(lt.getMaLichTrinh(), cn.getMaChoNgoi()) ? 1 : 0;
-                        isEnabled = true;
+                Color seatColor = getSeatColor(selectedToa.getLoaiToa());
+
+                int totalSeats = chos != null ? chos.size() : 0;
+                int rows = (int) Math.ceil(totalSeats / 4.0); // 4 ghế / row (2 bên)
+
+                for (int row = 0; row < rows; row++) {
+                    for (int col = 0; col < 2; col++) { // 2 ghế bên trái
+                        int seatNumber = row * 4 + col;
+                        JButton seatBtn = createSeatButton(seatNumber, lt, chos, seatColor);
+                        jPanel10.add(seatBtn);
                     }
-                    final int seatIndex = seatNumber - 1;
-                    seatBtn.addActionListener(e -> {
-                        selectedSeatIndex = seatIndex;
-                        setupSeatGrid();
-                    });
-                    setSeatColor(seatBtn, status, seatIndex == selectedSeatIndex, seatColor);
-                    seatBtn.setEnabled(isEnabled);
-                    jPanel10.add(seatBtn);
-                }
-                // Cột khoảng cách
-                JLabel space = new JLabel();
-                space.setPreferredSize(new Dimension(40, 40));
-                jPanel10.add(space);
-                // 2 ghế bên phải
-                for (int col = 0; col < 2; col++) {
-                    int seatNumber = row * 4 + col + 3; // Số ghế từ 1 đến 24
-                    JButton seatBtn = new JButton(String.valueOf(seatNumber));
-                    seatBtn.setPreferredSize(new Dimension(40, 40));
-                    int status = 0;
-                    boolean isEnabled = false;
-                    if (seatNumber - 1 < chos.size()) {
-                        ChoNgoi cn = chos.get(seatNumber - 1);
-                        status = veDao.isChoSold(lt.getMaLichTrinh(), cn.getMaChoNgoi()) ? 1 : 0;
-                        isEnabled = true;
+
+                    JLabel space = new JLabel();
+                    space.setPreferredSize(new Dimension(40, 40));
+                    jPanel10.add(space);
+
+                    for (int col = 2; col < 4; col++) { // 2 ghế bên phải
+                        int seatNumber = row * 4 + col;
+                        JButton seatBtn = createSeatButton(seatNumber, lt, chos, seatColor);
+                        jPanel10.add(seatBtn);
                     }
-                    final int seatIndex = seatNumber - 1;
-                    seatBtn.addActionListener(e -> {
-                        selectedSeatIndex = seatIndex;
-                        setupSeatGrid();
-                    });
-                    setSeatColor(seatBtn, status, seatIndex == selectedSeatIndex, seatColor);
-                    seatBtn.setEnabled(isEnabled);
-                    jPanel10.add(seatBtn);
                 }
             }
         } else {
-            for (int row = 0; row < 6; row++) {
-                for (int col = 0; col < 2; col++) {
-                    int seatNumber = row * 4 + col + 1;
-                    JButton seatBtn = new JButton(String.valueOf(seatNumber));
-                    seatBtn.setPreferredSize(new Dimension(40, 40));
-                    seatBtn.setEnabled(false);
-                    jPanel10.add(seatBtn);
-                }
-                JLabel space = new JLabel();
-                space.setPreferredSize(new Dimension(40, 40));
-                jPanel10.add(space);
-                for (int col = 0; col < 2; col++) {
-                    int seatNumber = row * 4 + col + 3;
-                    JButton seatBtn = new JButton(String.valueOf(seatNumber));
-                    seatBtn.setPreferredSize(new Dimension(40, 40));
-                    seatBtn.setEnabled(false);
-                    jPanel10.add(seatBtn);
+            // Nếu chưa chọn chuyến hoặc toa -> hiển thị ghế vô hiệu hóa
+            for (int i = 0; i < 6 * 4; i++) {
+                JButton seatBtn = new JButton(String.valueOf(i + 1));
+                seatBtn.setPreferredSize(new Dimension(40, 40));
+                seatBtn.setEnabled(false);
+                jPanel10.add(seatBtn);
+
+                if ((i + 1) % 2 == 0) {
+                    JLabel space = new JLabel();
+                    space.setPreferredSize(new Dimension(40, 40));
+                    jPanel10.add(space);
                 }
             }
         }
 
         jPanel10.revalidate();
         jPanel10.repaint();
+    }
+
+    // ------------------ HÀM HỖ TRỢ ------------------
+    private JButton createSeatButton(int seatIndex, LichTrinh lt, List<ChoNgoi> chos, Color seatColor) {
+        JButton seatBtn = new JButton(String.valueOf(seatIndex + 1));
+        seatBtn.setPreferredSize(new Dimension(40, 40));
+        boolean isEnabled = seatIndex < chos.size();
+        int status = 0;
+        if (isEnabled) {
+            ChoNgoi cn = chos.get(seatIndex);
+            status = veDao.isChoSold(lt.getMaLichTrinh(), cn.getMaChoNgoi()) ? 1 : 0;
+        }
+        final int index = seatIndex;
+        seatBtn.addActionListener(e -> {
+            selectedSeatIndex = index;
+            setupSeatGrid();
+        });
+        setSeatColor(seatBtn, status, index == selectedSeatIndex, seatColor);
+        seatBtn.setEnabled(isEnabled);
+        return seatBtn;
+    }
+
+    private Color getCoachColor(String loaiToa) {
+        switch (loaiToa) {
+            case "GN": return new Color(0, 0, 139);   // giường nằm
+            case "GC": return new Color(255, 215, 0); // ngồi cứng
+            case "GM": return new Color(144, 238, 144); // ngồi mềm
+            default: return new Color(70, 130, 180);
+        }
+    }
+
+    private Color getSeatColor(String loaiToa) {
+        switch (loaiToa) {
+            case "GM": return new Color(255, 200, 100);
+            case "GC": return new Color(0, 100, 0);
+            case "GN4": return new Color(100, 150, 255);
+            case "GN6": return new Color(150, 150, 150);
+            case "TV": return new Color(128, 0, 128);
+            default: return new Color(220, 220, 220);
+        }
     }
     
 

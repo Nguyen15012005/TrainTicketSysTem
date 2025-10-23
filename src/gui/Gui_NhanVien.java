@@ -24,6 +24,7 @@ import net.miginfocom.swing.MigLayout;
 import panel_menu.Panel_MainForm;
 import panel_menu.Panel_MenuLayout;
 import panel_nhanvien.Panel_BanVe;
+import panel_nhanvien.Panel_DoiVe;
 //import panel_nhanvien.Panel_DoiVe;
 import panel_nhanvien.Panel_HoaDon;
 import panel_nhanvien.Panel_KhachHang;

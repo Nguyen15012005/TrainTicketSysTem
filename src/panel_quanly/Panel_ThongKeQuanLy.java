@@ -3,14 +3,17 @@
  */
 package panel_quanly;
 
-import dao.Dao_ThongKe;
 import entity.LichTrinh;
 import javax.swing.*;
 import javax.swing.border.*;
+
+import dao.Dao_ThongKe;
+
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.*;
@@ -35,7 +38,7 @@ public class Panel_ThongKeQuanLy extends javax.swing.JPanel {
     private int currentWeekOffset = 0; // 0 = tuần hiện tại, -1 = tuần trước, +1 = tuần sau
     private JLabel weekLabel;
     
-    private final Panel_ThongKeQuanLy dashboardDAO;
+    private final Dao_ThongKe dashboardDAO;
 
     public Panel_ThongKeQuanLy() {
         this.dashboardDAO = new Dao_ThongKe();
@@ -424,17 +427,21 @@ public class Panel_ThongKeQuanLy extends javax.swing.JPanel {
         content.setOpaque(false);
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
 
-        JLabel trainName = new JLabel(schedule.getTrainName());
+        JLabel trainName = new JLabel(schedule.getMaChuyenTau()); // tên tàu
         trainName.setFont(new Font("Segoe UI", Font.BOLD, 15));
         trainName.setForeground(COLOR_DARK_TEXT);
 
-        JLabel route = new JLabel(schedule.getDeparture() + " → " + schedule.getDestination());
+        JLabel route = new JLabel(schedule.getGaDi() + " → " + schedule.getGaDen());
         route.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         route.setForeground(COLOR_LIGHT_TEXT);
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        JLabel dateTimeLabel = new JLabel(schedule.getDate().format(dateFormatter) + " - " + schedule.getTime().format(timeFormatter));
+        LocalDateTime khoiHanh = schedule.getThoiGianKhoiHanh();
+        JLabel dateTimeLabel = new JLabel(
+            khoiHanh.toLocalDate().format(dateFormatter) + " - " +
+            khoiHanh.toLocalTime().format(timeFormatter)
+        );
         dateTimeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         dateTimeLabel.setForeground(COLOR_LIGHT_TEXT);
 
@@ -443,10 +450,11 @@ public class Panel_ThongKeQuanLy extends javax.swing.JPanel {
         content.add(route);
         content.add(Box.createVerticalStrut(5));
         content.add(dateTimeLabel);
-        
+
         card.add(content, BorderLayout.CENTER);
         return card;
     }
+
 
     // THÊM MỚI: TẠO THẺ THÔNG BÁO
     private JPanel createNotificationCard(String message) {

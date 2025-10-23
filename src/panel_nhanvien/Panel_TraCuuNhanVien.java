@@ -216,7 +216,7 @@ public class Panel_TraCuuNhanVien extends JPanel {
 
             if (hd != null) {
                 cardHD.add(new JLabel("Mã hóa đơn: " + hd.getMaHD()));
-                cardHD.add(new JLabel("Ngày lập: " + hd.getNgayLap().format(FMT)));
+                cardHD.add(new JLabel("Ngày lập: " + hd.getNgayLapHoaDon().format(FMT)));
                 cardHD.add(new JLabel("Tổng tiền: " + String.format("%,.0f VND", hd.getTongTien())));
             } else {
                 cardHD.add(new JLabel("❌ Vé chưa có hóa đơn thanh toán."));
@@ -415,7 +415,7 @@ public class Panel_TraCuuNhanVien extends JPanel {
             for (HoaDon hd : danhSachHD)
                 m.addRow(new Object[]{
                         hd.getMaHD(), hd.getMaKH(), hd.getMaNV(),
-                        hd.getNgayLap().format(FMT), String.format("%,.0f", hd.getTongTien())
+                        hd.getNgayLapHoaDon().format(FMT), String.format("%,.0f", hd.getTongTien())
                 });
         }
 
@@ -425,14 +425,14 @@ public class Panel_TraCuuNhanVien extends JPanel {
             LocalDate to = ((Date) dateTo.getValue()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             List<HoaDon> filtered = danhSachHD.stream()
                     .filter(h -> h.getMaHD().toLowerCase().contains(keyword))
-                    .filter(h -> !h.getNgayLap().isBefore(from) && !h.getNgayLap().isAfter(to))
+                    .filter(h -> !h.getNgayLapHoaDon().isBefore(from) && !h.getNgayLapHoaDon().isAfter(to))
                     .collect(Collectors.toList());
             DefaultTableModel m = (DefaultTableModel) table.getModel();
             m.setRowCount(0);
             for (HoaDon hd : filtered)
                 m.addRow(new Object[]{
                         hd.getMaHD(), hd.getMaKH(), hd.getMaNV(),
-                        hd.getNgayLap().format(FMT), String.format("%,.0f", hd.getTongTien())
+                        hd.getNgayLapHoaDon().format(FMT), String.format("%,.0f", hd.getTongTien())
                 });
         }
 
@@ -460,7 +460,7 @@ public class Panel_TraCuuNhanVien extends JPanel {
             card.add(new JLabel("Mã hóa đơn: " + hd.getMaHD()));
             card.add(new JLabel("Mã KH: " + hd.getMaKH()));
             card.add(new JLabel("Mã NV: " + hd.getMaNV()));
-            card.add(new JLabel("Ngày lập: " + hd.getNgayLap().format(FMT)));
+            card.add(new JLabel("Ngày lập: " + hd.getNgayLapHoaDon().format(FMT)));
             card.add(new JLabel("Tổng tiền: " + String.format("%,.0f VND", hd.getTongTien())));
 
             List<VeTau> VeTauList = new Dao_VeTau().getByHoaDon(hd.getMaHD());

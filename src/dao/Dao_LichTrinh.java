@@ -19,7 +19,7 @@ import java.util.List;
 public class Dao_LichTrinh {
     private final Connection con;
 
-    public Dao_LichTrinh() {
+    public Dao_LichTrinh(Connection connection) {
         con = DatabaseConnection.getInstance().getConnection();
     }
 
@@ -150,5 +150,32 @@ public class Dao_LichTrinh {
         } catch (IllegalArgumentException e) {
             return null;
         }
+    }
+    
+    public List<LichTrinh> getLichTrinhByGaAndNgay(String maGaDi, String maGaDen, java.util.Date ngay) {
+        List<LichTrinh> list = new ArrayList<>();
+        try {
+            java.sql.Date sqlNgay = new java.sql.Date(ngay.getTime());
+            String sql = "SELECT * FROM LichTrinh WHERE gaDi = ? AND gaDen = ? AND CONVERT(DATE, ThoiGianKhoiHanh) = ? AND TrangThai = 1";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, maGaDi);
+            ps.setString(2, maGaDen);
+            ps.setDate(3, sqlNgay);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                LichTrinh lt = new LichTrinh();
+                lt.setMaLichTrinh(rs.getString("MaLichTrinh"));
+                lt.setMaChuyenTau(rs.getString("maChuyenTau"));
+                lt.setGaDi(rs.getString("gaDi"));
+                lt.setGaDen(rs.getString("gaDen"));
+                lt.setThoiGianKhoiHanh(null);
+                lt.setThoiGianDuKienDen(null);
+                lt.setTrangThai(rs.getBoolean("TrangThai"));
+                list.add(lt);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

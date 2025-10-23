@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +41,17 @@ public class Dao_HoaDon {
 
                 while (rs.next()) {
                     Date d = rs.getDate("NgayLapHoaDon");
+
                     list.add(new HoaDon(
-                            rs.getString("MaHD"),
-                            rs.getString("MaKH"),
-                            rs.getString("MaNV"),
-                            (d != null ? d.toLocalDate() : null),
-                            rs.getDouble("TongTien")
+                        rs.getString("MaHD"),
+                        rs.getString("MaNV"),
+                        rs.getString("MaKH"),
+                        (d != null ? d.toLocalDate() : null),
+                        rs.getString("MaKM"),
+                        rs.getBigDecimal("TongTien"),
+                        rs.getBigDecimal("TongGiamGia")
                     ));
+
                 }
             }
         } catch (SQLException e) {
@@ -73,11 +78,14 @@ public class Dao_HoaDon {
                         Date d = rs.getDate("NgayLapHoaDon");
                         return new HoaDon(
                                 rs.getString("MaHD"),
-                                rs.getString("MaKH"),
                                 rs.getString("MaNV"),
+                                rs.getString("MaKH"),
                                 (d != null ? d.toLocalDate() : null),
-                                rs.getDouble("TongTien")
+                                null, // maKM tạm để null
+                                rs.getBigDecimal("TongTien"), // chuyển sang BigDecimal
+                                BigDecimal.ZERO // tongGiamGia tạm là 0
                         );
+
                     }
                 }
             }
